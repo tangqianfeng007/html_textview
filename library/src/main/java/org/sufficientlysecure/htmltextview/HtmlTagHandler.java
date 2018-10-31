@@ -181,6 +181,7 @@ public class HtmlTagHandler implements Html.TagHandler {
             } else if (tag.equalsIgnoreCase("code")) {
                 start(output, new Code());
             } else if (tag.equalsIgnoreCase("center")) {
+                output.append("\n");
                 start(output, new Center());
             } else if (tag.equalsIgnoreCase("s") || tag.equalsIgnoreCase("strike")) {
                 start(output, new Strike());

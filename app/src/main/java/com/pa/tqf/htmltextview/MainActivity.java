@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         HtmlTextView tv = findViewById(R.id.tv);
-        String a = convertStreamToString(getResources().openRawResource(R.raw.q2));
+        String a = convertStreamToString(getResources().openRawResource(R.raw.example));
         tv.setHtml(HtmlUtils.parseHtmlData(a));
     }
 
