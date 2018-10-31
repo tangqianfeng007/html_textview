@@ -54,7 +54,7 @@ public class HtmlFormulaImageGetter implements Html.ImageGetter {
     }
 
     private String clearSymbol(String source) {
-        return source.replace("\\\\\\\\" , "\\").replace("\\\\","\\");
+        return source.replaceAll("\\\\+" , "\\\\");
     }
 
 
