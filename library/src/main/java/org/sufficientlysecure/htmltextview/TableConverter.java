@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -98,6 +99,7 @@ public class TableConverter {
     private static View renderTable(Context context, List<String[]> whole, TextView textView) {
         HorizontalScrollView scrollView = new HorizontalScrollView(context);
         TableLayout tableLayout = new TableLayout(context);
+        tableLayout.addView(createHorizontalLine(context));
 
         for (int i = 0; i < whole.size(); i++) {
             String[] row = whole.get(i);
@@ -118,24 +120,34 @@ public class TableConverter {
                 pcvParams.gravity = Gravity.CENTER;
                 hv.setPadding(10, 10, 10, 10);
                 hv.setLayoutParams(pcvParams);
+                tableRow.addView(createVerticalLine(context));
                 tableRow.addView(hv);
             }
+            tableRow.addView(createVerticalLine(context));
             tableLayout.addView(tableRow);
+            tableLayout.addView(createHorizontalLine(context));
         }
+        tableLayout.addView(createHorizontalLine(context));
         scrollView.addView(tableLayout);
         return tableLayout;
     }
 
-    private static Drawable bitmap2Drawable(Bitmap bitmap) {
-        return new BitmapDrawable(bitmap);
+    private static View createHorizontalLine(Context context){
+        View view = new View(context);
+        view.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, 1));
+        view.setBackgroundColor(Color.parseColor("#AA000000"));
+        return view;
     }
 
-    public static class DrawItem {
-        public int[] w;
-        public int[] h;
-        public int line;
-        public int colum;
+    private static View createVerticalLine(Context context){
+        View view = new View(context);
+        view.setLayoutParams(new TableRow.LayoutParams(1, TableRow.LayoutParams.MATCH_PARENT));
+        view.setBackgroundColor(Color.parseColor("#AA000000"));
+        return view;
+    }
 
+    private static Drawable bitmap2Drawable(Bitmap bitmap) {
+        return new BitmapDrawable(bitmap);
     }
 
     //=======================================将布局绘制成表格bitmap======================
@@ -146,119 +158,28 @@ public class TableConverter {
      * @param view
      * @return
      */
-    private static Bitmap view2Bitmap(View view) {
-        DrawItem drawItem = new DrawItem();
+    public static Bitmap view2Bitmap(View view){
         la2Me(view);
-        View tmp = view;
-        while (!(tmp instanceof TableLayout)) {
-            tmp = ((ViewGroup) view).getChildAt(0);
-        }
-        getViewWH(tmp, drawItem);
-
         int width = view.getMeasuredWidth();
         int height = view.getMeasuredHeight();
-        if (width == 0 || height == 0) {
+        if (width == 0 || height == 0){
             return null;
         }
-        Bitmap bmp = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bmp  = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bmp);
         view.draw(canvas);
-
-        /**
-         * 绘制表格的边框
-         */
-        Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#AA000000"));
-        paint.setStyle(Paint.Style.FILL);
-        paint.setAntiAlias(true);
-        paint.setStrokeWidth(1);
-
-        //竖边线绘制
-        int x = 0;
-        for (int i = 0; i < drawItem.colum + 1; ++i) {
-            if (i != 0) {
-                x += drawItem.w[i - 1];
-            }
-            if (i == 0) {
-                canvas.drawLine(x + 1, 0, x + 1, height, paint);
-            } else if (i == drawItem.colum) {
-                canvas.drawLine(x - 1, 0, x - 1, height, paint);
-            } else {
-                canvas.drawLine(x, 0, x, height, paint);
-            }
-        }
-        //横边线绘制
-        int y = 0;
-        for (int i = 0; i < drawItem.line + 1; ++i) {
-            if (i != 0) {
-                y += drawItem.h[i - 1];
-            }
-            if (i == 0) {
-                canvas.drawLine(0, y + 1, width, y + 1, paint);
-            } else if (i == drawItem.line) {
-                canvas.drawLine(0, y - 1, width, y - 1, paint);
-            } else {
-                canvas.drawLine(0, y, width, y, paint);
-            }
-        }
-
         return bmp;
     }
 
     /**
-     * 计算出每一行每一列的最大行高和最大列宽
-     * PS：该表格必须填充满，否则将会崩溃
-     * PS：入参必须为TableLayout，并且其中子项只能为TableRow，否则将会崩溃
-     * @param v
-     * @param drawItem
-     */
-    private static void getViewWH(View v, DrawItem drawItem) {
-        if (v instanceof TableLayout) {
-            int line = ((TableLayout) v).getChildCount();
-            drawItem.line = line;
-            drawItem.h = new int[line];
-            TableRow tr = (TableRow) ((TableLayout) v).getChildAt(0);
-            int colum = tr.getChildCount();
-            drawItem.colum = colum;
-            drawItem.w = new int[colum];
-            for (int i = 0; i < line; ++i) {
-                TableRow trtmp = (TableRow) ((TableLayout) v).getChildAt(i);
-                drawItem.h[i] = trtmp.getMeasuredHeight();
-            }
-            for (int j = 0; j < colum; ++j) {
-                int width = 0;
-                for (int i = 0; i < line; ++i) {
-                    TableRow trtmp = (TableRow) ((TableLayout) v).getChildAt(i);
-                    if (width < trtmp.getChildAt(j).getMeasuredWidth()) {
-                        width = trtmp.getChildAt(j).getMeasuredWidth();
-                    }
-                }
-                drawItem.w[j] = width;
-            }
-        }
-    }
-
-    /**
-     * 手动对整个布局进行layout和measure
+     * 对view进行layout和measure
      * @param view
      */
-    private static void la2Me(View view) {
-        if (view != null) {
-            if (view instanceof ViewGroup) {
-                ViewGroup.LayoutParams lp = view.getLayoutParams();
-                view.layout(0, 0, lp.width, lp.height);
-                view.measure(lp.width, lp.height);
-                int childCount = ((ViewGroup) view).getChildCount();
-                for (int i = 0; i < childCount; ++i) {
-                    la2Me(((ViewGroup) view).getChildAt(i));
-                }
-                view.layout(0, 0, lp.width, lp.height);
-                view.measure(lp.width, lp.height);
-            } else {
-                ViewGroup.LayoutParams lp = view.getLayoutParams();
-                view.layout(0, 0, lp.width, lp.height);
-                view.measure(lp.width, lp.height);
-            }
+    public static void la2Me(View view){
+        if (view != null){
+            int spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            view.measure(spec, spec);
+            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         }
     }
 }
