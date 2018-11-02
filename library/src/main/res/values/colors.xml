@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="html_option_default_color">#808080</color>
+    <color name="html_option_green_color">#0a7e07</color>
+    <color name="html_option_yellow_color">#fbc02d</color>
+    <color name="html_option_red_color">#d01716</color>
+</resources>
