@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +50,7 @@ public class TableConverter {
             return null;
         }
         View view = renderTable(context, ls, textView);
-        Bitmap b = view2Bitmap(view);
+        Bitmap b = View2BitmapUtils.view2Bitmap(view);
         Drawable drawable = bitmap2Drawable(b);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         return drawable;
@@ -97,15 +95,17 @@ public class TableConverter {
      * @return
      */
     private static View renderTable(Context context, List<String[]> whole, TextView textView) {
-        HorizontalScrollView scrollView = new HorizontalScrollView(context);
         TableLayout tableLayout = new TableLayout(context);
-        tableLayout.addView(createHorizontalLine(context));
+        tableLayout.setDividerDrawable(context.getResources().getDrawable(R.drawable.shape_horizontal));
+        tableLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_BEGINNING | LinearLayout.SHOW_DIVIDER_END | LinearLayout.SHOW_DIVIDER_MIDDLE);
 
         for (int i = 0; i < whole.size(); i++) {
             String[] row = whole.get(i);
-            TableRow tableRow = new TableRow(context);
+            TableRow tableRow = new MatchTableRow(context);
             final TableLayout.LayoutParams params = new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             tableRow.setLayoutParams(params);
+            tableRow.setDividerDrawable(context.getResources().getDrawable(R.drawable.shape_vertical));
+            tableRow.setShowDividers(LinearLayout.SHOW_DIVIDER_BEGINNING | LinearLayout.SHOW_DIVIDER_END | LinearLayout.SHOW_DIVIDER_MIDDLE);
 
             for (int j = 0; j < row.length; j++) {
                 String cell = row[j];
@@ -120,66 +120,14 @@ public class TableConverter {
                 pcvParams.gravity = Gravity.CENTER;
                 hv.setPadding(10, 10, 10, 10);
                 hv.setLayoutParams(pcvParams);
-                tableRow.addView(createVerticalLine(context));
                 tableRow.addView(hv);
             }
-            tableRow.addView(createVerticalLine(context));
             tableLayout.addView(tableRow);
-            tableLayout.addView(createHorizontalLine(context));
         }
-        tableLayout.addView(createHorizontalLine(context));
-        scrollView.addView(tableLayout);
         return tableLayout;
-    }
-
-    private static View createHorizontalLine(Context context){
-        View view = new View(context);
-        view.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, 1));
-        view.setBackgroundColor(Color.parseColor("#AA000000"));
-        return view;
-    }
-
-    private static View createVerticalLine(Context context){
-        View view = new View(context);
-        view.setLayoutParams(new TableRow.LayoutParams(1, TableRow.LayoutParams.MATCH_PARENT));
-        view.setBackgroundColor(Color.parseColor("#AA000000"));
-        return view;
     }
 
     private static Drawable bitmap2Drawable(Bitmap bitmap) {
         return new BitmapDrawable(bitmap);
-    }
-
-    //=======================================将布局绘制成表格bitmap======================
-
-    /**
-     * 把view转换成bitmap
-     *
-     * @param view
-     * @return
-     */
-    public static Bitmap view2Bitmap(View view){
-        la2Me(view);
-        int width = view.getMeasuredWidth();
-        int height = view.getMeasuredHeight();
-        if (width == 0 || height == 0){
-            return null;
-        }
-        Bitmap bmp  = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bmp);
-        view.draw(canvas);
-        return bmp;
-    }
-
-    /**
-     * 对view进行layout和measure
-     * @param view
-     */
-    public static void la2Me(View view){
-        if (view != null){
-            int spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-            view.measure(spec, spec);
-            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        }
     }
 }
