@@ -61,7 +61,7 @@ public class HtmlFormulaImageGetter implements Html.ImageGetter {
     protected Bitmap loadBitmap(TeXFormula teXFormula) {
         TeXIcon icon = teXFormula.new TeXIconBuilder()
                 .setStyle(TeXConstants.STYLE_DISPLAY)
-                .setSize(textPaint.getTextSize() / textPaint.density)
+                .setSize((float) (textPaint.getTextSize() / textPaint.density * 1.1))
                 .setWidth(TeXConstants.UNIT_SP, textPaint.getTextSize() / textPaint.density , TeXConstants.ALIGN_LEFT)
                 .setIsMaxWidth(true)
                 .setInterLineSpacing(TeXConstants.UNIT_SP,
@@ -72,7 +72,7 @@ public class HtmlFormulaImageGetter implements Html.ImageGetter {
             return null;
         }
 
-        icon.setInsets(new Insets(5, 5, 5, 5));
+        icon.setInsets(new Insets(5, 2, 5, 2));
 
         Bitmap image = Bitmap.createBitmap(icon.getIconWidth(), icon.getIconHeight(),
                 Bitmap.Config.ARGB_8888);
