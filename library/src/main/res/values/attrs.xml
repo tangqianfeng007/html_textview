@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="option_button">
+        <attr name="state" format="enum">
+            <enum name="NONE"  value="0"/>
+            <enum name="GREEN"  value="1"/>
+            <enum name="YELLOW"  value="2"/>
+            <enum name="RED"  value="3"/>
+        </attr>
+        <attr name="head" format="string"/>
+        <attr name="content" format="string"/>
+    </declare-styleable>
+
+
+</resources>
