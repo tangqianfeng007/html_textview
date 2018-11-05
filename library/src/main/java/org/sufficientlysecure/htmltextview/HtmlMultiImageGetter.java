@@ -31,6 +31,7 @@ public class HtmlMultiImageGetter implements Html.ImageGetter {
 
     @Override
     public Drawable getDrawable(String source) {
+        source = source.replaceAll("\\\\*\"" , "");
         if (source.startsWith(PREFIX_HTTP)) {
             if (htmlHttpImageGetter == null) {
                 htmlHttpImageGetter = new HtmlHttpImageGetter(container);

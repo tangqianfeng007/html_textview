@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -30,13 +34,18 @@ import okhttp3.Response;
 
 public class QuestionBankActivity extends AppCompatActivity {
 
-    public static final String cookie = "JSESSIONID=2e26c08d-cf5e-4e24-b19a-c6cd173d1b4f";
+    /**
+     * http://k12-portal-stg1.zhi-niao.com/h5portal/onePortal/index.html#/login获取cookie 然后替换
+     */
+    public static final String cookie = "JSESSIONID=eee5b002-3398-40bf-8726-8727e2bc2c16";
     public static final String url = "http://k12-portal-stg1.zhi-niao.com/homework/web/common/list/autonomous?period=2&chapterIdList=8424763&pageSize=10&source=A&subjectId=2&knowledgeIdList=33685507,33685508,33685509,33685510,33685511,33685512,33685513,33685514,33685515,33685516,33685517,33685518,33685519,33685520,33685521,33685522,33685525,33685526,33685527,33685528,33685529,33685530,33685531,33685547,33685548,33685549,33685550,33685551,33685553,33685554,33685555,33685556,33685558,33685574,33685618,33685619,33685620,33685621,33685622,33685623,33685624,33685625,33685626,33685628,33685629,33685630,33685631,33685632,33685633,33685634,33685635,33685636,33685637,33685647,33685778,33685779,33685780,33685783,33685784,33685785,33685786,33685787,33685788,33685789,33685790,33685791,33685792,33685793,33685794,33685796,33685799,33685800,33685854,33685855,33685883,33685980,33685981,33685985,33685986,33685989,33685990,33685991,33685992,33685993,33685994,33685995,33685996,33685997,33685999,33686000,33686001,33686002,33686003&questionType=0&pageNo=";
     int page = 1;
     OkHttpClient okHttpClient = new OkHttpClient();
 
     SmartRefreshLayout srf;
     RecyclerView rcl;
+    EditText pageEt;
+    Button jump;
     HomeAdapter adapter;
 
     @Override
@@ -45,8 +54,10 @@ public class QuestionBankActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question_bank);
         srf = findViewById(R.id.refresh);
         rcl = findViewById(R.id.rcl);
+        pageEt = findViewById(R.id.page);
+        jump = findViewById(R.id.jump);
         initView();
-        refresh();
+        refresh(0);
     }
 
     private void initView() {
@@ -61,13 +72,25 @@ public class QuestionBankActivity extends AppCompatActivity {
         srf.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                refresh();
+                refresh(page);
+            }
+        });
+        jump.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pageStr = pageEt.getText().toString().trim();
+                if (TextUtils.isEmpty(pageStr)) {
+                    page = 0;
+                }
+                else {
+                    page = Integer.parseInt(pageStr);
+                }
+                refresh(page);
             }
         });
     }
 
-    private void refresh() {
-        page = 0;
+    private void refresh(int page) {
         String u = url+page;
         Request request = new Request.Builder()
                 .url(u)

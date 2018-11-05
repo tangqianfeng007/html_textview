@@ -33,6 +33,7 @@ public class HtmlResImageGetter implements Html.ImageGetter {
         this.container = textView;
     }
 
+    @Override
     public Drawable getDrawable(String source) {
         Context context = container.getContext();
         int id = context.getResources().getIdentifier(source, "drawable", context.getPackageName());
