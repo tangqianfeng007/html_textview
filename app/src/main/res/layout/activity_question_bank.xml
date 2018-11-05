@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-
         tools:context=".QuestionBankActivity">
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
@@ -62,6 +61,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="确定"
+            android:textSize="14dp" />
+
+
+        <Button
+            android:id="@+id/log"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:text="日志"
             android:textSize="14dp" />
     </LinearLayout>
 </LinearLayout>
