@@ -42,7 +42,18 @@ public class HtmlFormulaImageGetter implements Html.ImageGetter {
 
     @Override
     public Drawable getDrawable(String source) {
-        source = clearSymbol(source);
+        String clearSource = clearSymbol(source);
+        TeXFormula teXFormula = getPartialTeXFormula(clearSource);
+        Bitmap bitmap = loadBitmap(teXFormula);
+        if (bitmap == null) {
+            return getDrawableWithOutClear(source);
+        }
+        Drawable drawable = bitmap2Drawable(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        return drawable;
+    }
+
+    public Drawable getDrawableWithOutClear(String source) {
         TeXFormula teXFormula = getPartialTeXFormula(source);
         Bitmap bitmap = loadBitmap(teXFormula);
         if (bitmap == null) {
@@ -68,6 +79,9 @@ public class HtmlFormulaImageGetter implements Html.ImageGetter {
                         AjLatexMath.getLeading(textPaint.getTextSize() / textPaint.density))
                 .build();
 
+        /**
+         * 如果图片太大 则不加载 防止OOM
+         */
         if (icon == null || icon.getIconHeight() > 1080 || icon.getIconWidth() > 1980) {
             return null;
         }

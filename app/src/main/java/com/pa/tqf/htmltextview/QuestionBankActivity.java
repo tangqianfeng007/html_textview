@@ -34,6 +34,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 题库测试，需要时常替换cookie，因为经常过期
+ */
 public class QuestionBankActivity extends AppCompatActivity {
 
     /**
@@ -115,7 +118,7 @@ public class QuestionBankActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 srf.finishRefresh();
-                Toast.makeText(QuestionBankActivity.this , e.getMessage() , Toast.LENGTH_LONG);
+                toast(e.getMessage());
             }
 
             @Override
@@ -125,6 +128,9 @@ public class QuestionBankActivity extends AppCompatActivity {
                     QuestionBean questionBean = JSON.parseObject(response.body().string() , QuestionBean.class);
                     if ("200".equalsIgnoreCase(questionBean.getCode())) {
                         refreshUI(questionBean.getBody().getList());
+                    }
+                    else {
+                        toast(questionBean.getMessage());
                     }
                 }
             }
@@ -154,7 +160,7 @@ public class QuestionBankActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 srf.finishLoadMore();
-                Toast.makeText(QuestionBankActivity.this , e.getMessage() , Toast.LENGTH_LONG);
+                toast(e.getMessage());
             }
 
             @Override
@@ -164,6 +170,9 @@ public class QuestionBankActivity extends AppCompatActivity {
                     QuestionBean questionBean = JSON.parseObject(response.body().string() , QuestionBean.class);
                     if ("200".equalsIgnoreCase(questionBean.getCode())) {
                         loadMoreUI(questionBean.getBody().getList());
+                    }
+                    else {
+                        toast(questionBean.getMessage());
                     }
                 }
             }
@@ -193,6 +202,15 @@ public class QuestionBankActivity extends AppCompatActivity {
             HtmlTextView h = helper.getView(R.id.hlv);
             h.setHtml(HtmlUtils.parseHtmlData(item.getContent()));
         }
+    }
+
+    private void toast(final String msg) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(QuestionBankActivity.this , msg , Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

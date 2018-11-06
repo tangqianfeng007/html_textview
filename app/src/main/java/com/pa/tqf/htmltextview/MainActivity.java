@@ -1,14 +1,9 @@
 package com.pa.tqf.htmltextview;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-
-import org.sufficientlysecure.htmltextview.HtmlTextView;
-import org.sufficientlysecure.htmltextview.HtmlUtils;
-
-import java.io.InputStream;
-import java.util.Scanner;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,13 +11,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        HtmlTextView tv = findViewById(R.id.tv);
-        String a = convertStreamToString(getResources().openRawResource(R.raw.example));
-        tv.setHtml(HtmlUtils.parseHtmlData(a));
+        findViewById(R.id.btn1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this , SimpleActivity.class);
+                startActivity(i);
+            }
+        });
+        findViewById(R.id.btn2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this , QuestionBankActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
-    private String convertStreamToString(@NonNull InputStream is) {
-        Scanner s = new Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
-    }
 }
