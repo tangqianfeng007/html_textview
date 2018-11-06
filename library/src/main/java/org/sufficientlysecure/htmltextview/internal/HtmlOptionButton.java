@@ -110,7 +110,7 @@ public class HtmlOptionButton extends FrameLayout {
         return this;
     }
 
-    private void setTheme(int color) {
+    public void setTheme(int color) {
         headTv.setTextColor(color);
         line.setBackgroundColor(color);
         contentHtv.setTextColor(color);

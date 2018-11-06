@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:content="这是一道选择题"
+            app:content="这是一道选择题$k'(x)=\\lim_{\\Delta x\\to 0}\\frac{k(x)-k(x-\\Delta x)}{\\Delta x}$"
             app:head="A"
             app:state="GREEN" />
 
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:content="这是一道选择题"
+            app:content="这是一道选择题$k'(x)=\\lim_{\\Delta x\\to 0}\\frac{k(x)-k(x-\\Delta x)}{\\Delta x}$"
             app:head="B"
             app:state="YELLOW" />
 
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:content="这是一道选择题"
+            app:content="这是一道选择题$k'(x)=\\lim_{\\Delta x\\to 0}\\frac{k(x)-k(x-\\Delta x)}{\\Delta x}$"
             app:head="C"
             app:state="RED" />
 
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:content="这是一道选择题"
+            app:content="这是一道选择题$k'(x)=\\lim_{\\Delta x\\to 0}\\frac{k(x)-k(x-\\Delta x)}{\\Delta x}$"
             app:head="D"
             app:state="NONE" />
 
