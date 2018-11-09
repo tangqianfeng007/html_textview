@@ -22,10 +22,10 @@ tv.setHtml(HtmlUtils.parseHtmlData(content));
 > HtmlTextView渲染的是题干数据，即后台接口返回数据的content字段,取得content字段后直接转换赋值即可**tv.setHtml(HtmlUtils.parseHtmlData(content))**;
 
 #### 接口返回数据样例
-![](~/10-16-11.jpg)
-####效果
+![](_image/HtmlTextView/10-16-11.jpg)
+#### 效果
 
-![](~/10-17-36.jpg)
+![](_image/HtmlTextView/10-17-36.jpg)
 
 
 
@@ -62,10 +62,10 @@ tv.setHtml(HtmlUtils.parseHtmlData(content));
     }
 ```
 #### 效果
-![](~/10-54-46.jpg)
+![](_image/HtmlTextView/10-54-46.jpg)
 #### 注意
 由于TypedArray取值的原因，在xml里设置带有公式表达式的content的时候，转移符必须多一位。
-![](~/11-05-50.jpg)
+![](_image/HtmlTextView/11-05-50.jpg)
 
 ### 支持的html标签
 * ``<p>``
@@ -104,12 +104,12 @@ tv.setHtml(HtmlUtils.parseHtmlData(content));
 ### 原理
 整个控件都是基于textview span的基础上进行拓展，对于不支持的html标签可以在**HtmlTagHandler**中拓展，html标签的解析是基于sax解析方式，详见**handleTag**方法。
 
-![](~/11-29-07.jpg)
+![](_image/HtmlTextView/11-29-07.jpg)
 
 ``<table>``标签的二次拓展解析由于体量较小采用的是dom解析，然后绘制成图，详见TableConverter类。
-![](~/11-31-43.jpg)
+![](_image/HtmlTextView/11-31-43.jpg)
 ``<formula>``标签是基于JLaTexMath库解析，详见HtmlFormulaImageGetter类。
-![](~/11-33-37.jpg)
+![](_image/HtmlTextView/11-33-37.jpg)
 由于android.text.html类属性传值不全的原因，自定义标如果需要获取属性(Attribute),只有通过反射获取，代码示例如下。
 ```java
 /**
