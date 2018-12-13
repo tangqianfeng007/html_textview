@@ -18,13 +18,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        findViewById(R.id.btn2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this , QuestionBankActivity.class);
-                startActivity(i);
-            }
-        });
     }
 
 }

@@ -21,14 +21,5 @@
             android:text="本地测试数据"
             android:textSize="20dp" />
 
-        <Button
-            android:id="@+id/btn2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="22dp"
-            android:text="题库测试数据"
-            android:textSize="20dp" />
-
     </LinearLayout>
 </ScrollView>

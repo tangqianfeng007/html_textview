@@ -1,16 +1,6 @@
 package com.pa.tqf.htmltextview;
 
-/**
- * Copyright (C) 2018, PING AN TECHNOLOGIES CO., LTD.
- * ExampleFormula
- * <p>
- * Description
- *
- * @author tangqianfeng567
- * @version 1.0
- * <p>
- * Ver 1.0, 2018/11/6, tangqianfeng567, Create file
- */
+
 public class ExampleFormula {
     public static String mExample1 = "$\\begin{array}{lr}\\mbox{\\textcolor{Blue}{Russian}}&\\mbox{\\textcolor{Melon}{Greek}}\\\\"
             + "\\mbox{"
