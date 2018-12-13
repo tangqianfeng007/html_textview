@@ -1,11 +1,6 @@
----
-date: 2018-11-02 15:40
-status: public
-title: HtmlTextView
----
 
 ### 介绍
-解析html标签进行布局的图文公式混排控件。基于htmlTextview和JLaTexMath这两个库上融合和修改。
+解析html标签进行布局的图文公式混排控件。
 ### 使用实例
 ```java
 <org.sufficientlysecure.htmltextview.HtmlTextView
@@ -21,51 +16,6 @@ tv.setHtml(HtmlUtils.parseHtmlData(content));
 ```
 > HtmlTextView渲染的是题干数据，即后台接口返回数据的content字段,取得content字段后直接转换赋值即可**tv.setHtml(HtmlUtils.parseHtmlData(content))**;
 
-#### 接口返回数据样例
-![](_image/HtmlTextView/10-16-11.jpg)
-#### 效果
-
-![](_image/HtmlTextView/10-17-36.jpg)
-
-
-
-
-
-### HtmlOptionButton(选择题选项按钮)
-> 选择题选项返回的数据option字段和题干数据字段content是分开的，各个界面可能会有自定义样式及自己业务逻辑,所以选择题是一个单独的控件，下面是一个简单的通用选择题按钮，支持html标签和latex标签解析，参考可用。
-
-#### xml
-```java
-<org.sufficientlysecure.htmltextview.internal.HtmlOptionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:content="这是一道选择题$k'(x)=\\lim_{\\Delta x\\to 0}\\frac{k(x)-k(x-\\Delta x)}{\\Delta x}$"
-            app:head="B"
-            app:state="YELLOW" />
-```
-#### 代码
-```java
-   /**
-     * 
-     * @param option
-     * 这是一道选择题$k'(x)=\lim_{\Delta x\to 0}\frac{k(x)-k(x-\Delta x)}{\Delta x}$
-     */
-    private void setButton(String option) {
-        HtmlOptionButton button = new HtmlOptionButton(this);
-        //option支持html、latex标签的混合文本
-        button.setContent(option);
-        //选项A、B、C、D
-        button.setHead("A");
-        //按钮状态颜色
-        button.setState(HtmlOptionButton.State.GREEN);
-    }
-```
-#### 效果
-![](_image/HtmlTextView/10-54-46.jpg)
-#### 注意
-由于TypedArray取值的原因，在xml里设置带有公式表达式的content的时候，转移符必须多一位。
-![](_image/HtmlTextView/11-05-50.jpg)
 
 ### 支持的html标签
 * ``<p>``
@@ -147,15 +97,8 @@ tv.setHtml(HtmlUtils.parseHtmlData(content));
     }
 
 ```
-### future
-- 使用mathview做htmltextview部分特殊排版题不兼容的降级处理。
-- 使用jlatexmath-android替换JLaTexMath。
-- 拓展``<a>``标签，支持路由跳转。
-- 拓展``<img>``标签，支持点击预览及排版可居中对齐显示。
 
-### 其他
-- 公式的显示颜色是单独设置的详见AjLatexMath.setColor(int color)方法。
-- 网络加载图片的``<img>``标签，加载的图片大小跟真实原图一样大，不受width和height限制，如果需要支持自定义大小需要拓展属性支持。
-- 题干数据超过一屏幕的时候，使用Scrollview包裹HtmlTextView可以使滑动更流畅。
+### 感谢
+powered by [html-Textview](https://github.com/PrivacyApps/html-textview) 、 [JLaTexMath-andriod](https://github.com/sixgodIT/JLaTexMath-andriod)
 
 
